@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>موقع تحميل الصور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" acrel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2e86de;
+            --secondary-color: #54a0ff;
+            --accent-color: #ff9f43;
+            --dark-color: #222f3e;
+            --light-color: #f5f6fa;
+            --success-color: #26de81;
+            --danger-color: #fc5c65;
+            --base-font-size: 1rem; /* حجم الخط الأساسي */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            font-size: var(--base-font-size);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .logo-container {
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo {
+            height: 3.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            max-width: 80%;
+        }
+        
+        h1 {
+            font-size: clamp(1.25rem, 4vw, 1.75rem); /* حجم الخط يتكيف مع عرض الشاشة */
+            font-weight: 700;
+            margin: 0 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        main {
+            max-width: 95%;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
+        
+        main:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+        }
+        
+        .upload-container {
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            font-size: clamp(0.9rem, 3vw, 1rem); /* حجم الخط يتكيف مع عرض الشاشة */
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 3vw, 1rem); /* حجم الخط يتكيف مع عرض الشاشة */
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2);
+            outline: none;
+            background-color: white;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: clamp(0.9rem, 3vw, 1rem); /* حجم الخط يتكيف مع عرض الشاشة */
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(46, 134, 222, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .whatsapp-btn {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 134, 222, 0.4);
+        }
+        
+        .whatsapp-btn:hover {
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .card-container {
+            position: relative;
+            margin: 2rem auto;
+            max-width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-image {
+            width: 100%;
+            display: block;
+            transition: all 0.5s ease;
+        }
+        
+        .card-container:hover .card-image {
+            transform: scale(1.03);
+        }
+        
+        .name-overlay {
+            position: absolute;
+            top: 74%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: clamp(1rem, 4vw, 1.5rem); /* حجم الخط يتكيف مع عرض الشاشة */
+            font-weight: 700;
+            text-align: center;
+            width: 90%;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 1.125rem;
+            height: 1.125rem;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 0.5rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* تأثيرات للشاشات الصغيرة */
+        @media (max-width: 480px) {
+            :root {
+                --base-font-size: 0.9rem;
+            }
+            
+            header {
+                padding: 1rem 0;
+            }
+            
+            .logo {
+                height: 2.5rem;
+            }
+            
+            main {
+                padding: 1rem;
+                margin: 0 0.5rem 1.5rem;
+                transform: translateY(-5px);
+            }
+            
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .buttons-container {
+                gap: 0.75rem;
+            }
+            
+            button {
+                padding: 0.65rem 1rem;
+                max-width: 100%;
+            }
+            
+            .card-container {
+                margin: 1rem auto;
+            }
+        }
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            :root {
+                --base-font-size: 0.95rem;
+            }
+            
+            header {
+                padding: 1.25rem 0;
+            }
+            
+            .logo {
+                height: 3rem;
+            }
+            
+            main {
+                padding: 1.25rem;
+                margin: 0 1rem 1.75rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            main {
+                max-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn.prod.website-files.com/66db0372f52ae59e195522ec/66dd564274bb58012fb7ab58_tabsense%20logo%20new.png" alt="شعار الموقع" class="logo">
+        </div>
+        <h1>صمم بطاقة المعايدة الخاصة بك</h1>
+    </header>
+
+    <main>
+        <div class="upload-container">
+            <div class="form-group">
+                <label for="name">الاسم:</label>
+                <input type="text" id="name" placeholder="أدخل اسمك هنا">
+            </div>
+            
+            <div class="buttons-container">
+                <button id="generate-btn"><i class="fas fa-magic" style="margin-left: 8px;"></i> إنشاء وتحميل البطاقة</button>
+                <button id="whatsapp-btn" class="whatsapp-btn hidden"><i class="fab fa-whatsapp" style="margin-left: 8px;"></i> مشاركة عبر واتساب</button>
+            </div>
+            
+            <div class="card-container hidden" id="card-container">
+                <img src="https://i.imgur.com/NGAr3lc.jpeg" alt="بطاقة المعايدة" class="card-image" id="card-image">
+                <div class="name-overlay" id="name-overlay"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('name');
+            const generateBtn = document.getElementById('generate-btn');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const cardContainer = document.getElementById('card-container');
+            const nameOverlay = document.getElementById('name-overlay');
+            const cardImage = document.getElementById('card-image');
+            let generatedImageUrl = '';
+            
+            // تأكد من أن الصورة قد تم تحميلها
+            function checkImageLoaded(imgElement) {
+                return new Promise((resolve, reject) => {
+                    if (imgElement.complete) {
+                        resolve();
+                    } else {
+                        imgElement.onload = resolve;
+                        imgElement.onerror = reject;
+                    }
+                });
+            }
+            
+            generateBtn.addEventListener('click', async function() {
+                const name = nameInput.value.trim();
+                const originalBtnText = generateBtn.innerHTML;
+                
+                if (name === '') {
+                    alert('الرجاء إدخال اسمك');
+                    return;
+                }
+                
+                try {
+                    // عرض مؤشر التحميل
+                    generateBtn.innerHTML = '<span class="loading"></span> جاري إنشاء البطاقة...';
+                    generateBtn.disabled = true;
+                    
+                    // انتظر حتى يتم تحميل الصورة
+                    await checkImageLoaded(cardImage);
+                    
+                    // عرض البطاقة
+                    nameOverlay.textContent = name;
+                    cardContainer.style.display = 'block';
+                    setTimeout(() => {
+                        cardContainer.style.opacity = '1';
+                    }, 10);
+                    
+                    // استخدام html2canvas لالتقاط الصورة
+                    const canvas = await html2canvas(cardContainer, {
+                        allowTaint: true,
+                        useCORS: true,
+                        scale: 2,
+                        logging: true,
+                        onclone: function(clonedDoc) {
+                            clonedDoc.getElementById('card-container').style.display = 'block';
+                            clonedDoc.getElementById('card-container').style.opacity = '1';
+                        }
+                    });
+                    
+                    // حفظ رابط الصورة للمشاركة
+                    generatedImageUrl = canvas.toDataURL('image/png');
+                    
+                    // إنشاء رابط للتحميل
+                    const link = document.createElement('a');
+                    link.download = `بطاقة_معايدة_${name}.png`;
+                    link.href = generatedImageUrl;
+                    link.click();
+                    
+                    // إظهار زر المشاركة عبر واتساب
+                    whatsappBtn.classList.remove('hidden');
+                    
+                } catch (error) {
+                    alert('حدث خطأ أثناء إنشاء الصورة، يرجى المحاولة مرة أخرى');
+                    console.error('Error generating image:', error);
+                } finally {
+                    // استعادة حالة الزر الأصلية
+                    generateBtn.innerHTML = originalBtnText;
+                    generateBtn.disabled = false;
+                }
+            });
+            
+            // زر المشاركة عبر واتساب
+            whatsappBtn.addEventListener('click', function() {
+                if (!generatedImageUrl) {
+                    alert('الرجاء إنشاء البطاقة أولاً');
+                    return;
+                }
+                
+                const name = nameInput.value.trim() || 'معايدة';
+                const text = `بطاقة معايدة من ${name}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}&media=${encodeURIComponent(generatedImageUrl)}`;
+                
+                window.open(whatsappUrl, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
